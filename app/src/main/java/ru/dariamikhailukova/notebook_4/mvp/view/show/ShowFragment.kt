@@ -42,9 +42,9 @@ class ShowFragment : Fragment(), ShowView {
         text = args.currentNote.text
         date = getDate(args.currentNote.date)
 
-        binding.updateTextNoteName.setText(name)
-        binding.updateTextNote.setText(text)
-        binding.updateTextDate.text = date
+        binding.nameEditText.setText(name)
+        binding.textEditText.setText(text)
+        binding.dateTextView.text = date
     }
 
     override fun getDate(currentDate: Date): String {
@@ -76,8 +76,8 @@ class ShowFragment : Fragment(), ShowView {
 
     //обновление полей элемента бд
     override fun updateItem(){
-        name = binding.updateTextNoteName.text.toString()
-        text = binding.updateTextNote.text.toString()
+        name = binding.nameEditText.text.toString()
+        text = binding.textEditText.text.toString()
         //date = binding.updateTextDate.text.toString()
         //date = Integer.parseInt(binding.updateTextDate.text.toString())
 
@@ -116,6 +116,7 @@ class ShowFragment : Fragment(), ShowView {
     //переход к фрагменту list
     override fun returnToList() {
         findNavController().navigate(R.id.action_showFragment_to_listFragment)
+
     }
 
     //возвращает id выбранного элемента бд

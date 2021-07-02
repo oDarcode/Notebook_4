@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_listFragment_to_showFragment"
             app:destination="@id/showFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_startFragment"
+            app:destination="@id/startFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -37,5 +40,19 @@
         <argument
             android:name="currentNote"
             app:argType="ru.dariamikhailukova.notebook_4.data.Note" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="ru.dariamikhailukova.notebook_4.mvp.view.viewPager.StartFragment"
+        android:label="StartFragment" >
+        <action
+            android:id="@+id/action_startFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="currentNote"
+            app:argType="ru.dariamikhailukova.notebook_4.data.Note" />
+        <argument
+            android:name="pos"
+            app:argType="integer" />
     </fragment>
 </navigation>

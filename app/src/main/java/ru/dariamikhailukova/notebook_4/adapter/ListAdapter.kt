@@ -44,7 +44,8 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.name?.text = currentItem.name
 
         holder.eachItem?.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToShowFragment(currentItem)
+            //val action = ListFragmentDirections.actionListFragmentToShowFragment(currentItem)
+            val action = ListFragmentDirections.actionListFragmentToStartFragment(currentItem, position)
             holder.itemView.findNavController().navigate(action)
         }
         /*holder.itemView.findViewById<ConstraintLayout>(R.id.rowLayout).setOnClickListener {
@@ -57,7 +58,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     fun setData(note: List<Note>){
         this.noteList = note
         notifyDataSetChanged()
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
 }
