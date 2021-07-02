@@ -55,7 +55,7 @@ class ListFragment : Fragment(), ListView {
         }
 
         if(item.itemId == R.id.menu_about){
-
+            Toast.makeText(requireContext(), "ALL OF YOU IS GODS", Toast.LENGTH_SHORT).show()
             //val intent = Intent(activity, AboutActivity::class.java)
             //startActivity(intent)
         }

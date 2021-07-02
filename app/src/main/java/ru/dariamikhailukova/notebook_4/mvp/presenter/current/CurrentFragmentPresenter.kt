@@ -13,15 +13,11 @@ class CurrentFragmentPresenter(_view: ViewPagerFragment): CurrentPresenter {
     private var view: CurrentView = _view
     private var mNoteViewModel: NoteViewModel = ViewModelProvider(_view).get(NoteViewModel::class.java)
 
-    init {
-
-    }
-
     override fun sendEmail(name: String, text: String, date: String) {
         if(inputCheck(name, text)){
-            //view.sendIntent(name, text)
+            view.sendIntent(name, text)
         }else{
-            //view.showToast(R.string.fill_all)
+            view.showToast(R.string.fill_all)
         }
     }
 
@@ -30,16 +26,16 @@ class CurrentFragmentPresenter(_view: ViewPagerFragment): CurrentPresenter {
             val updatedNote = Note(view.currentNoteId(), name, text, Date())
 
             mNoteViewModel.updateNote(updatedNote)
-            //view.showToast(R.string.update)
+            view.showToast(R.string.update)
             view.returnToList()
         }else{
-            //view.showToast(R.string.fill_all)
+            view.showToast(R.string.fill_all)
         }
     }
 
     override fun delete(currentNote: Note) {
         mNoteViewModel.deleteNote(currentNote)
-        //view.showToast(R.string.remove)
+        view.showToast(R.string.remove)
         view.returnToList()
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -108,13 +109,13 @@ class StartFragment : Fragment() {
             val myFragment: ViewPagerFragment = binding.viewPager.findCurrentFragment(childFragmentManager) as ViewPagerFragment
             myFragment.sendTo()
             //presenter?.sendEmail(name, text, date)
-            //Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
+
         }
 
         if(item.itemId == R.id.menu_save){
             val myFragment: ViewPagerFragment = binding.viewPager.findCurrentFragment(childFragmentManager) as ViewPagerFragment
             myFragment.updateItem()
-
+            //Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
             Log.d(TAG, (myFragment).toString())
 
         }
