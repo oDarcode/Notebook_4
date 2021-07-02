@@ -55,7 +55,7 @@ class ListFragment : Fragment(), ListView {
         }
 
         if(item.itemId == R.id.menu_about){
-            findNavController().navigate(R.id.action_listFragment_to_startFragment)
+
             //val intent = Intent(activity, AboutActivity::class.java)
             //startActivity(intent)
         }

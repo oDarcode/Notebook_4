@@ -45,13 +45,11 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
         holder.eachItem?.setOnClickListener {
             //val action = ListFragmentDirections.actionListFragmentToShowFragment(currentItem)
+            //пока что отключила
             val action = ListFragmentDirections.actionListFragmentToStartFragment(currentItem, position)
             holder.itemView.findNavController().navigate(action)
         }
-        /*holder.itemView.findViewById<ConstraintLayout>(R.id.rowLayout).setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToShowFragment(currentItem)
-            holder.itemView.findNavController().navigate(action)
-        }*/
+
     }
 
     //задать элемент

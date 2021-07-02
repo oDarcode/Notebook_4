@@ -4,9 +4,7 @@
 
     <data>
 
-        <variable
-            name="NoteModel"
-            type="ru.dariamikhailukova.notebook_4.data.NoteViewModel"/>
+
     </data>
 
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"

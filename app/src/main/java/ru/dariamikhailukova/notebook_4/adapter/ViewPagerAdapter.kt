@@ -1,27 +1,20 @@
-package ru.dariamikhailukova.notebook_4
+package ru.dariamikhailukova.notebook_4.adapter
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ru.dariamikhailukova.notebook_4.data.Note
+import ru.dariamikhailukova.notebook_4.mvp.view.current.NOTE
+import ru.dariamikhailukova.notebook_4.mvp.view.current.ViewPagerFragment
 
-
-//не использую
-class ViewPagerAdapter( fa: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(fa, lifecycle) {
-
+class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private var notes: List<Note> = emptyList()
 
     override fun getItemCount(): Int = notes.size
+
     override fun createFragment(position: Int): Fragment {
-        //val newFragment = ViewPagerFragment.newInstance(notes[position])
         val fragment = ViewPagerFragment()
         fragment.arguments = Bundle().apply {
-            val GET = notes.size.toString()
-            Log.d(GET, "i do it")
             putParcelable(NOTE, notes[position])
         }
 
@@ -31,8 +24,6 @@ class ViewPagerAdapter( fa: FragmentManager, lifecycle: Lifecycle) :
     fun setData(note: List<Note>){
         this.notes = note
         notifyDataSetChanged()
-        //notifyDataSetChanged()
     }
-
 
 }

@@ -4,25 +4,28 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import ru.dariamikhailukova.notebook_4.R
-import ru.dariamikhailukova.notebook_4.ViewPager2Adapter
-import ru.dariamikhailukova.notebook_4.ViewPagerFragment
+import ru.dariamikhailukova.notebook_4.adapter.ViewPagerAdapter
+
 import ru.dariamikhailukova.notebook_4.data.NoteViewModel
 import ru.dariamikhailukova.notebook_4.databinding.FragmentStartBinding
+import ru.dariamikhailukova.notebook_4.mvp.view.current.ViewPagerFragment
 
-class StartFragment : Fragment(), viewPager {
+class StartFragment : Fragment() {
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNoteViewModel: NoteViewModel
     private val TAG = "NoteActivity"
     private val args by navArgs<StartFragmentArgs>()
 
+
+    private lateinit var adapter: ViewPagerAdapter
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +34,21 @@ class StartFragment : Fragment(), viewPager {
         _binding = FragmentStartBinding.inflate(inflater, container, false)
 
         mNoteViewModel = ViewModelProvider(this).get(ru.dariamikhailukova.notebook_4.data.NoteViewModel::class.java)
-        binding.noteModel = mNoteViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        //val adapter = ViewPagerAdapter( childFragmentManager, lifecycle)
+        //binding.noteModel = mNoteViewModel
+        //binding.lifecycleOwner = viewLifecycleOwner
+        /*
+        * <variable
+            name="NoteModel"
+            type="ru.dariamikhailukova.notebook_4.data.NoteViewModel"/>*/
+        adapter = ViewPagerAdapter(this)
+        viewPager = binding.viewPager
+        viewPager.adapter = adapter
+
+
+        mNoteViewModel.readAllData.observe(viewLifecycleOwner) { notes ->
+            adapter.setData(notes)
+        }
+
         //val viewPager = binding.viewPager
         //viewPager.adapter = adapter
 
@@ -42,7 +57,7 @@ class StartFragment : Fragment(), viewPager {
          //   adapter.setData(notes)
         //binding.viewPager.adapter = ViewPagerAdapter(notes, childFragmentManager, lifecycle)
         //})
-
+/*
         val adapter = ViewPager2Adapter()
         val viewPager = binding.viewPager
         viewPager.adapter = adapter
@@ -50,8 +65,8 @@ class StartFragment : Fragment(), viewPager {
         mNoteViewModel.readAllData.observe(viewLifecycleOwner) { notes ->
             adapter.setData(notes)
         }
-
-        //(viewPager[0] as RecyclerView).scrollToPosition(args.pos)
+*/
+        //пока выключу
         Handler().postDelayed({
             viewPager.setCurrentItem(args.pos, false)
         }, 100)
@@ -60,46 +75,7 @@ class StartFragment : Fragment(), viewPager {
 
         setHasOptionsMenu(true)
 
-
-
         return binding.root
-
-
-
-
-/*
-        val adapter = ViewPager2Adapter()
-        val viewPager = binding.viewPager
-        viewPager.adapter = adapter
-
-
-        mNoteViewModel.readAllData.observe(viewLifecycleOwner) { notes ->
-            adapter.setData(notes)
-        }*/
-
-
-        //mNoteViewModel.readAllData.observe(viewLifecycleOwner) { notes ->
-        //    binding.viewPager.adapter = ViewPagerAdapter(notes, childFragmentManager, lifecycle)
-        //}
-
-
-
-        //return binding.root
-
-
-        /*
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
-        binding = FragmentStartBinding.inflate(inflater, container, false)
-        binding.noteModel = mNoteViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        mNoteViewModel.readAllData.observe(viewLifecycleOwner) { notes ->
-            if (notes == null || notes.isEmpty())
-                //findNavController().navigate(MyCitiesFragmentDirections.actionMyCitiesFragmentToCitySearchActivity())
-            else
-                binding.viewPager.adapter = ViewPagerAdapter(notes, childFragmentManager, lifecycle)
-        }
-        return binding.root*/
     }
 
 
@@ -124,31 +100,23 @@ class StartFragment : Fragment(), viewPager {
     //выбор элемента меню
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_delete){
-            //deleteNote()
+            val myFragment: ViewPagerFragment = binding.viewPager.findCurrentFragment(childFragmentManager) as ViewPagerFragment
+            myFragment.deleteNote()
         }
 
         if(item.itemId == R.id.menu_share){
+            val myFragment: ViewPagerFragment = binding.viewPager.findCurrentFragment(childFragmentManager) as ViewPagerFragment
+            myFragment.sendTo()
             //presenter?.sendEmail(name, text, date)
-            Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
+            //Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
         }
 
         if(item.itemId == R.id.menu_save){
+            val myFragment: ViewPagerFragment = binding.viewPager.findCurrentFragment(childFragmentManager) as ViewPagerFragment
+            myFragment.updateItem()
 
+            Log.d(TAG, (myFragment).toString())
 
-            //childFragmentManager.beginTransaction().replace(R.id.viewPager, ViewPagerFragment(), "SOMETAG").commit()
-            // Now later we can lookup the fragment by tag
-            val page = childFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager.toString() + ":" + binding.viewPager.currentItem)
-            //binding.viewPager.currentItem
-
-            //val fragmentDemo: ViewPagerFragment= childFragmentManager.findFragmentByTag("SOMETAG") as ViewPagerFragment
-
-            //val myFragment = childFragmentManager.findFragmentById(R.id.viewPager)
-            //getSupportFragmentManager().executePendingTranscation();
-            //updateItem()
-            //val myFragment = childFragmentManager.findFragmentByTag("3" ) //+ binding.viewPager.currentItem
-            //val myFragment = binding.viewPager.findCurrentFragment(childFragmentManager)
-            //val myFragment2 = binding.viewPager.findFragmentAtPosition(childFragmentManager, 3)
-            Log.d(TAG, (R.id.viewPager.toString() + ":" + binding.viewPager.currentItem).toString())
         }
         return super.onOptionsItemSelected(item)
     }

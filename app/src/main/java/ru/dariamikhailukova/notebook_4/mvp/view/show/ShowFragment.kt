@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ShowFragment : Fragment(), ShowView {
-    private var presenter: ShowFragmentPresenter? = null
+    /*private var presenter: ShowFragmentPresenter? = null
     private val args by navArgs<ShowFragmentArgs>()
 
     private var _binding: FragmentShowBinding? = null
@@ -74,6 +74,8 @@ class ShowFragment : Fragment(), ShowView {
         return super.onOptionsItemSelected(item)
     }
 
+
+
     //обновление полей элемента бд
     override fun updateItem(){
         name = binding.nameEditText.text.toString()
@@ -128,5 +130,5 @@ class ShowFragment : Fragment(), ShowView {
         super.onDestroy()
         _binding = null
     }
-
+*/
 }
