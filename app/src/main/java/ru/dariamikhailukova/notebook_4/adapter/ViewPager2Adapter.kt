@@ -31,7 +31,7 @@ class ViewPager2Adapter : RecyclerView.Adapter<ViewPager2Adapter.MyViewHolder>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_view_pager, parent, false))
+        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_current, parent, false))
     }
 
     override fun getItemCount(): Int {

@@ -6,10 +6,10 @@ import ru.dariamikhailukova.notebook_4.R
 import ru.dariamikhailukova.notebook_4.data.Note
 import ru.dariamikhailukova.notebook_4.data.NoteViewModel
 import ru.dariamikhailukova.notebook_4.mvp.view.current.CurrentView
-import ru.dariamikhailukova.notebook_4.mvp.view.current.ViewPagerFragment
+import ru.dariamikhailukova.notebook_4.mvp.view.current.CurrentFragmentView
 import java.util.*
 
-class CurrentFragmentPresenter(_view: ViewPagerFragment): CurrentPresenter {
+class CurrentFragmentPresenter(_view: CurrentFragmentView): CurrentPresenter {
     private var view: CurrentView = _view
     private var mNoteViewModel: NoteViewModel = ViewModelProvider(_view).get(NoteViewModel::class.java)
 

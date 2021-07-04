@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ru.dariamikhailukova.notebook_4.data.Note
 import ru.dariamikhailukova.notebook_4.mvp.view.current.NOTE
-import ru.dariamikhailukova.notebook_4.mvp.view.current.ViewPagerFragment
+import ru.dariamikhailukova.notebook_4.mvp.view.current.CurrentFragmentView
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private var notes: List<Note> = emptyList()
@@ -13,11 +13,10 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = notes.size
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = ViewPagerFragment()
+        val fragment = CurrentFragmentView()
         fragment.arguments = Bundle().apply {
             putParcelable(NOTE, notes[position])
         }
-
         return fragment
     }
 

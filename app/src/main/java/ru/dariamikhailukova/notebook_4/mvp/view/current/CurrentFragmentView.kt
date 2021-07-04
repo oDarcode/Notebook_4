@@ -9,70 +9,52 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import ru.dariamikhailukova.notebook_4.R
 import ru.dariamikhailukova.notebook_4.data.Note
-import ru.dariamikhailukova.notebook_4.databinding.FragmentViewPagerBinding
+import ru.dariamikhailukova.notebook_4.databinding.FragmentCurrentBinding
 import ru.dariamikhailukova.notebook_4.mvp.presenter.current.CurrentFragmentPresenter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 const val NOTE = "Note"
-class ViewPagerFragment : Fragment(), CurrentView {
+class CurrentFragmentView : Fragment(), CurrentView {
     private var presenter: CurrentFragmentPresenter? = null
-    private var _binding: FragmentViewPagerBinding? = null
-    private val binding get() = _binding!!
 
-    private var id: Long = 0
-    private lateinit var name: String
-    private lateinit var text: String
-    private lateinit var date: String
+    private var _binding: FragmentCurrentBinding? = null
+    private val binding get() = _binding!!
 
     lateinit var note: Note
 
-    //private lateinit var binding: FragmentViewPagerBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
-
+        _binding = FragmentCurrentBinding.inflate(inflater, container, false)
         presenter = CurrentFragmentPresenter(this)
 
         return binding.root
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(NOTE) }?.apply {
             note = this.getParcelable(NOTE)!!
 
-            id = note.id
-            name = note.name
-            text = note.text
-            date = getDate(note.date)
-
-            binding.nameEditText.setText(name)
-            binding.textEditText.setText(text)
-            binding.dateTextView.text = date
-
+            binding.nameEditText.setText(note.name)
+            binding.textEditText.setText(note.text)
+            binding.dateTextView.text = getDate(note.date)
         }
     }
-
-
-
 
     override fun getDate(currentDate: Date): String {
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val timeFormat: DateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        return  timeFormat.format(currentDate) + "   " + dateFormat.format(currentDate)
+        return  timeFormat.format(currentDate) + "  " + dateFormat.format(currentDate)
     }
 
     override fun updateItem() {
-        name = binding.nameEditText.text.toString()
-        text = binding.textEditText.text.toString()
+        note.name = binding.nameEditText.text.toString()
+        note.text = binding.textEditText.text.toString()
 
-        presenter?.update(name, text)
+        presenter?.update(note.name, note.text)
     }
 
     override fun deleteNote() {
@@ -82,7 +64,7 @@ class ViewPagerFragment : Fragment(), CurrentView {
         }
 
         builder.setNegativeButton("No"){_,_->}
-        builder.setTitle("Delete ${name}?")
+        builder.setTitle("Delete ${note.name}?")
         builder.setMessage("Are you sure?")
         builder.create().show()
     }
@@ -102,15 +84,15 @@ class ViewPagerFragment : Fragment(), CurrentView {
     }
 
     override fun returnToList() {
-        findNavController().navigate(R.id.action_startFragment_to_listFragment)
+        findNavController().navigate(R.id.action_viewPagerFragment_to_listFragment)
     }
 
     override fun currentNoteId(): Long {
-        return id
+        return note.id
     }
 
     override fun sendTo(){
-        presenter?.sendEmail(name, text, date)
+        presenter?.sendEmail(note.name, note.text, note.date.toString())
     }
 
     override fun onDestroy() {

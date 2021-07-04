@@ -52,7 +52,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     }
 
-    //задать элемент
+    //задает элементы
     fun setData(note: List<Note>){
         this.noteList = note
         notifyDataSetChanged()
