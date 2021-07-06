@@ -2,20 +2,20 @@ package ru.dariamikhailukova.notebook_4.mvp.view.viewPager
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import ru.dariamikhailukova.notebook_4.R
 import ru.dariamikhailukova.notebook_4.adapter.ViewPagerAdapter
-
-import ru.dariamikhailukova.notebook_4.data.NoteViewModel
 import ru.dariamikhailukova.notebook_4.databinding.FragmentPagerBinding
-import ru.dariamikhailukova.notebook_4.mvp.presenter.list.ListFragmentPresenter
 import ru.dariamikhailukova.notebook_4.mvp.presenter.viewPager.ViewPagerFragmentPresenter
 import ru.dariamikhailukova.notebook_4.mvp.view.current.CurrentFragmentView
+
+const val TAG = "Current item"
 
 class ViewPagerFragment : Fragment(), ViewPager {
     private val args by navArgs<ViewPagerFragmentArgs>()
@@ -41,12 +41,14 @@ class ViewPagerFragment : Fragment(), ViewPager {
             adapter.setData(notes)
         }
 
-        //ужано выглядит, но работает... а без handler не работает =\
-        Handler().postDelayed({
-            binding.viewPager.setCurrentItem(args.pos, false)
-        }, 100)
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.viewPager.setCurrentItem(args.pos, false)
+            Log.d(TAG, binding.viewPager.currentItem.toString())
+        }, 5)
     }
 
     override fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? {
